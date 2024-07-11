@@ -76,15 +76,19 @@ export function App() {
               <button type="button" onClick={closeModalScreen}><X/></button>
             </div>
             <p className="text-zinc-400 text-sm">Os convidados irão receber emails para confirmar a participação na viagem.</p>
-            <div>Emails@gmails.com <X/></div>
+            <div className="flex flex-wrap gap-2">
+              <div className="flex bg-zinc-800 gap-2 rounded-md p-2 items-center">
+                <p className="text-zinc-300 text-sm">Emails@gmails.com</p><X className="size-4"/>
+              </div>
+            </div>
             <div className="h-px w-full bg-zinc-800" />
-            <div className=" bg-black rounded-lg flex items-center gap-2 w-full border p-2.5">
+            <form className=" bg-black rounded-lg flex items-center gap-2 w-full border p-2.5">
               <AtSign className="size-5 text-zinc-400"/>
               <input type="text" placeholder="Digite o email do convidado" className="bg-transparent text-lg placeholder-zinc-400 flex-1 outline-none"/>
-              <button className="bg-lime-300 text-lime-950 rounded-lg px-2 py-3 flex font-medium items-center gap-1 hover:bg-yellow-400">
+              <button className="bg-lime-300 text-lime-950 rounded-lg p-3 flex font-medium items-center gap-1 hover:bg-yellow-400">
                     Convidar <Plus className="size-5"/>
               </button>
-            </div>
+            </form>
             
           </div>
         </div>
