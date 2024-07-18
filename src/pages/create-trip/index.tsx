@@ -21,6 +21,8 @@ export function CreateTrip() {
   const [destination, setDestination] = useState('')
   const [eventStartandEnd, setEventStartAndEnd] = useState<DateRange | undefined>()
   const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
+  const [ownerName, setOwnerName] = useState('')
+  const [ownerEmail, setOwnerEmail] = useState('')
 
   const displayDate = eventStartandEnd && eventStartandEnd.from && eventStartandEnd.to
     ? format(eventStartandEnd.from, "d' de ' LLL").concat(" até ").concat(format(eventStartandEnd.to, "d' de ' LLL"))
@@ -28,7 +30,14 @@ export function CreateTrip() {
 
   const handleDestinationChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDestination(event.target.value);
-    console.log(destination)
+  };
+
+  const handleOwnerName = (event: ChangeEvent<HTMLInputElement>) => {
+    setOwnerName(event.target.value);
+  };
+
+  const handleOwnerEmail = (event: ChangeEvent<HTMLInputElement>) => {
+    setOwnerEmail(event.target.value);
   };
 
   function openModalSetDate(){
@@ -126,7 +135,7 @@ export function CreateTrip() {
             (<button onClick={NoConfirmedPlaceDate} className="bg-zinc-800 rounded-lg px-5 py-2 flex items-center gap-1 hover:bg-zinc-700">
               Alterar local/data<Settings2/>
             </button>) : (
-            <button onClick={ConfirmedPlaceDate} className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-1 hover:bg-yellow-400">
+            <button disabled={destination=='' || displayDate==null} onClick={ConfirmedPlaceDate} className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap-1 hover:bg-yellow-400">
               Continuar <ArrowRight/>
             </button>)
             }
@@ -141,7 +150,7 @@ export function CreateTrip() {
                   }
                 </button>
               
-                <button onClick={openModalConfirmScreen} type="button" className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap hover:bg-yellow-400">
+                <button disabled={destination=='' || !displayDate || emailsToInvite.length<=0} onClick={openModalConfirmScreen} type="button" className="bg-lime-300 text-lime-950 rounded-lg px-5 py-2 font-medium flex items-center gap hover:bg-yellow-400">
                     Confirmar Viagem <ArrowRight/>
                 </button>
             </div>
@@ -181,6 +190,11 @@ export function CreateTrip() {
         <ModalConfirmScreen 
           closeModalConfirmScreen={closeModalConfirmScreen}
           createNewTrip={createNewTrip}
+          handleOwnerName={handleOwnerName}
+          handleOwnerEmail={handleOwnerEmail}
+          ownerEmail={ownerEmail}
+          ownerName={ownerName}
+          
         />
       )}
     </div>
