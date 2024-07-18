@@ -6,3 +6,7 @@
     min-width: 0;
     box-sizing: border-box;
 }
+
+input {
+    color-scheme: dark;
+}

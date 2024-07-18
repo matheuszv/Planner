@@ -1,9 +1,13 @@
-import { MapPin, Calendar, ArrowRight, UserRoundPlus, Settings2} from 'lucide-react'
-import { FormEvent, useState } from 'react'
+import { MapPin, Calendar, ArrowRight, UserRoundPlus, Settings2, X} from 'lucide-react'
+import { FormEvent, useState, ChangeEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ModalScreenInvite } from './modalScreenInvite'
 import { ModalConfirmScreen } from './modalConfirmScreen'
+import { DayPicker } from 'react-day-picker'
+import { DateRange } from 'react-day-picker'
+import { format } from 'date-fns'
 
+import 'react-day-picker/dist/style.css';
 
 export function CreateTrip() {
 
@@ -12,7 +16,28 @@ export function CreateTrip() {
   const [planConfirmed, setPlanConfirmed] = useState(false)
   const [modalScreen, setModalScreen] = useState(false)
   const [modalConfirmScreen, setModalConfirmScreen] = useState(false)
+  const [modalSetDate, setModalSetDate] = useState(false)
+
+  const [destination, setDestination] = useState('')
+  const [eventStartandEnd, setEventStartAndEnd] = useState<DateRange | undefined>()
   const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
+
+  const displayDate = eventStartandEnd && eventStartandEnd.from && eventStartandEnd.to
+    ? format(eventStartandEnd.from, "d' de ' LLL").concat(" até ").concat(format(eventStartandEnd.to, "d' de ' LLL"))
+    : null
+
+  const handleDestinationChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setDestination(event.target.value);
+    console.log(destination)
+  };
+
+  function openModalSetDate(){
+    setModalSetDate(true)
+  }
+
+  function closeModalSetDate(){
+    setModalSetDate(false)
+  }
  
   function ConfirmedPlaceDate(){
     setPlanConfirmed(true)
@@ -79,12 +104,22 @@ export function CreateTrip() {
           <div className="h-16 bg-zinc-900 px-4 rounded-xl flex items-center shadow-shape gap-3 w-full">
             <div className="flex items-center gap-2 flex-1">
               <MapPin className="size-5 text-zinc-400" />
-              <input type="text" placeholder="Para onde você vai?" disabled={planConfirmed} className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"/>
+              <input type="text" onChange={handleDestinationChange} value={destination} placeholder="Para onde você vai?" disabled={planConfirmed} className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"/>
             </div>
-            <div className="flex items-center gap-2">
+            <button onClick={openModalSetDate} disabled={planConfirmed} className="flex items-center gap-2">
               <Calendar className="size-5 text-zinc-400"/>
-              <input type="text" placeholder="Quando?" disabled={planConfirmed} className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none"/>
-            </div>
+              {displayDate ? 
+                (
+                <span className="text-base text-zinc-100 w-48 text-left">
+                    {displayDate}
+                </span>
+                ) : (
+                  <span className="text-base text-zinc-400 w-48 text-left">
+                    Quando?
+                  </span>
+                )
+              }
+            </button>
             <div className="w-px h-6 bg-zinc-800" />
             
             {planConfirmed ? 
@@ -116,6 +151,22 @@ export function CreateTrip() {
         <p className="text-zinc-500 text-sm"> Ao planejar sua viagem pela plann.er você automaticamente concorda <br />
         com nossos <a href="#" className="text-zinc-300 underline">termos de uso</a> e <a href="#" className="text-zinc-300 underline">políticas de privacidade</a> . </p>
       </div>
+
+      {
+        modalSetDate && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center shadow-shape">
+          <div className="rounded-xl bg-zinc-900 py-5 px-6 flex flex-col gap-3 text-zinc-300">
+            <div className="flex justify-between">            
+              <h2 className="text-white font-semibold text-lg ">Escolha os dias da viagem</h2>
+              <button type="button" onClick={closeModalSetDate}><X/></button>
+            </div>
+            
+            <DayPicker mode="range" selected={eventStartandEnd} onSelect={setEventStartAndEnd} />
+          
+          </div>
+        </div>
+        )
+      }
 
       {modalScreen && (
        <ModalScreenInvite 

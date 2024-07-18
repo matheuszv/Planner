@@ -30,7 +30,6 @@ export function ModalNewLink({closeModalNewLink}: ModalNewLink){
                     Salvar link
               </button>
             </form>
-            
           </div>
         </div>
     )
