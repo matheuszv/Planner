@@ -6,6 +6,7 @@ import { ModalConfirmScreen } from './modalConfirmScreen'
 import { DayPicker } from 'react-day-picker'
 import { DateRange } from 'react-day-picker'
 import { format } from 'date-fns'
+import { api } from '../../lib/axios'
 
 import 'react-day-picker/dist/style.css';
 
@@ -96,9 +97,41 @@ export function CreateTrip() {
     setEmailsToInvite(newList)
   }
 
-  function createNewTrip(event: FormEvent<HTMLFormElement>){
+  async function createNewTrip(event: FormEvent<HTMLFormElement>){
+    
     event.preventDefault()
-    navigate("trips/123")
+    console.log("aaaaaaaaaa")
+    if(!destination){
+      return
+    }
+
+    if(!eventStartandEnd?.from || !eventStartandEnd?.to){
+      return
+    }
+
+    if(emailsToInvite.length==0){
+      return
+    }
+
+    if(!ownerName || !ownerEmail){
+      return
+    }
+
+    console.log("aaaaaaaaaa")
+
+    const response = await api.post('/trips', {
+      destination,
+      starts_at: eventStartandEnd.from,
+      ends_at: eventStartandEnd.to,
+      emails_to_invite: emailsToInvite,
+      owner_name: ownerName,
+      owner_email: ownerEmail
+    })
+
+    const { tripId } = response.data
+
+    navigate(`/trips/${tripId}`)
+    
   }
 
   return (
