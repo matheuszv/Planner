@@ -109,7 +109,7 @@ export function CreateTrip() {
       return
     }
 
-    if(emailsToInvite.length==0){
+    if(emailsToInvite.length===0){
       return
     }
 
