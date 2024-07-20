@@ -7,7 +7,7 @@ import { api } from "../../lib/axios"
 
 import { Plus } from "lucide-react"
 
-import { useEffect, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { format } from "date-fns"
 
@@ -19,9 +19,15 @@ interface Trip{
     is_confirmed: boolean,
 }
 
+interface ImportantLinks {
+    Title: string | undefined,
+    URL: string | undefined,
+}
+
 
 export function DetailsTrip(){
 
+    const [importantLinks, setImportantLinks] = useState<ImportantLinks[]>([])
     const [modalNewPlan,setModalNewPlan] = useState(false)
     const [modalNewLink, setModalNewLink] = useState(false)
     const [trip, setTrip] = useState<Trip | undefined>()
@@ -35,6 +41,23 @@ export function DetailsTrip(){
     const displayDate = trip ? 
     format(trip?.starts_at, "d' de ' LLL").concat(" até ").concat(format(trip?.ends_at, "d' de ' LLL"))
     : ""
+
+    function newImportantLink(event: FormEvent<HTMLFormElement>){
+        const data = new FormData(event.currentTarget)
+        let title = data.get('TITLE')
+        let url = data.get('URL')
+        if(!title || !url){
+            event.preventDefault()
+            return
+        }
+        title = title.toString()
+        url = url.toString()
+
+        const newLink: ImportantLinks = { Title: title, URL: url }
+        setImportantLinks([...importantLinks, newLink])
+
+        event.preventDefault()
+    }
 
     function openModalNewPlan(){
         setModalNewPlan(true)
@@ -71,6 +94,7 @@ export function DetailsTrip(){
                     <DaysPlans />
                 </div>
                 <SideBar
+                    importantLink={importantLinks}
                     openModalNewLink={openModalNewLink}
                 />
             </main>
@@ -81,6 +105,7 @@ export function DetailsTrip(){
             }
             { modalNewLink &&
                 <ModalNewLink 
+                    newImportantLink={newImportantLink}
                     closeModalNewLink={closeModalNewLink}
                 />
             }

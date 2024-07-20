@@ -1,11 +1,12 @@
 import {X, Tag, Link2} from "lucide-react"
+import { FormEvent } from "react";
 
 interface ModalNewLink{
     closeModalNewLink: () => void;
+    newImportantLink: (event: FormEvent<HTMLFormElement> ) => void;
 }
 
-export function ModalNewLink({closeModalNewLink}: ModalNewLink){
-
+export function ModalNewLink({closeModalNewLink, newImportantLink}: ModalNewLink){
 
     return(
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center shadow-shape">
@@ -17,10 +18,10 @@ export function ModalNewLink({closeModalNewLink}: ModalNewLink){
             <p className="text-zinc-400 text-sm">Todos convidados podem visualizar os links importantes.</p>
             <div className="h-px w-full bg-zinc-800" />
 
-            <form className="flex flex-col gap-2">
+            <form onSubmit={newImportantLink} className="flex flex-col gap-2">
               <div className=" bg-zinc-950 rounded-lg flex items-center gap-3 w-full border border-zinc-800 p-3.5">
                 <Tag className="size-5 text-zinc-400"/>
-                <input type="text" name="Title" placeholder="Título do link" className="bg-transparent text-lg placeholder-zinc-400 flex-1 outline-none font-light"/>
+                <input type="text" name="TITLE" placeholder="Título do link" className="bg-transparent text-lg placeholder-zinc-400 flex-1 outline-none font-light"/>
               </div>
               <div className=" bg-zinc-950 rounded-lg flex items-center gap-3 w-full border border-zinc-800 p-3.5">
                 <Link2 className="size-5 text-zinc-400"/>
