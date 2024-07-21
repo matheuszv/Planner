@@ -13,7 +13,7 @@ export function EmailsTrips({id, name, email, is_confirmed}: EmailsTrips){
     return(
         <div className="flex justify-between items-center">
             <div className="flex flex-col">
-                <h4>{name ?? `Convidaado ${id}` }</h4>
+                <h4>{name ?? `Convidado ${id}` }</h4>
                 <span className="text-zinc-400 text-xs">{email}</span>
             </div>
             { is_confirmed ? 

@@ -100,7 +100,6 @@ export function CreateTrip() {
   async function createNewTrip(event: FormEvent<HTMLFormElement>){
     
     event.preventDefault()
-    console.log("aaaaaaaaaa")
     if(!destination){
       return
     }
@@ -117,7 +116,6 @@ export function CreateTrip() {
       return
     }
 
-    console.log("aaaaaaaaaa")
 
     const response = await api.post('/trips', {
       destination,

@@ -20,8 +20,20 @@ interface Trip{
 }
 
 interface ImportantLinks {
-    Title: string | undefined,
-    URL: string | undefined,
+        id: string,
+        title: string,
+        url: string
+}
+
+interface Activities{
+    date: string,
+      activities: 
+        {
+          id: string,
+          title: string,
+          occurs_at: string
+        }[]
+    
 }
 
 
@@ -31,18 +43,31 @@ export function DetailsTrip(){
     const [modalNewPlan,setModalNewPlan] = useState(false)
     const [modalNewLink, setModalNewLink] = useState(false)
     const [trip, setTrip] = useState<Trip | undefined>()
+    const [plans, setPlans] = useState<Activities[]>([])
     
+
+
     const { tripId } = useParams()
 
     useEffect(() => {
         api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
     }, [tripId])
 
+    useEffect(() => {
+        api.get(`/trips/${tripId}/activities`).then(response => setPlans(response.data.activities))
+    }, [tripId])
+
+    useEffect(() => {
+        api.get(`/trips/${tripId}/links`).then(response => setImportantLinks(response.data.links))
+    }, [tripId])
+
     const displayDate = trip ? 
     format(trip?.starts_at, "d' de ' LLL").concat(" até ").concat(format(trip?.ends_at, "d' de ' LLL"))
     : ""
 
-    function newImportantLink(event: FormEvent<HTMLFormElement>){
+    async function newImportantLink(event: FormEvent<HTMLFormElement>){
+        
+        event.preventDefault()
         const data = new FormData(event.currentTarget)
         let title = data.get('TITLE')
         let url = data.get('URL')
@@ -53,11 +78,36 @@ export function DetailsTrip(){
         title = title.toString()
         url = url.toString()
 
-        const newLink: ImportantLinks = { Title: title, URL: url }
-        setImportantLinks([...importantLinks, newLink])
+        await api.post(`/trips/${tripId}/links`, {
+            title,
+            url
+        })
+        
+    }
+
+    async function setNewActivie(event: FormEvent<HTMLFormElement>){
 
         event.preventDefault()
-    }
+  
+        const data = new FormData(event.currentTarget)
+  
+        const title = data.get('title')?.toString()
+        let occurs_at = data.get('occurs_at_day')?.toString()
+        const occurs_at_time = data.get('occurs_at_time')?.toString()
+        
+        if(!occurs_at_time) return
+
+        occurs_at = occurs_at?.concat("T").concat(occurs_at_time)
+
+        console.log({title, occurs_at})
+  
+        await api.post(`/trips/${tripId}/activities`, {
+            title,
+            occurs_at
+        })
+  
+        window.document.location.reload()
+      }
 
     function openModalNewPlan(){
         setModalNewPlan(true)
@@ -90,16 +140,23 @@ export function DetailsTrip(){
                             Cadastrar atividade
                         </button>
                     </div>
+                    {plans.map(activity => {
+                        return(
+                            <DaysPlans 
+                                activity={activity}
+                            />
+                        )
+                    })}
                     
-                    <DaysPlans />
                 </div>
                 <SideBar
-                    importantLink={importantLinks}
+                    importantLinks={importantLinks}
                     openModalNewLink={openModalNewLink}
                 />
             </main>
             { modalNewPlan &&
                 <ModalNewPlan
+                    setNewActivie={setNewActivie}
                     closeModalNewPlan={closeModalNewPlan}
                 />
             }

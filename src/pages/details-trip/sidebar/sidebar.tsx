@@ -7,13 +7,16 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 interface ImportantLinks {
-    Title: string | undefined,
-    URL: string | undefined,
+
+    id: string,
+    title: string,
+    url: string
+
 }
 
 interface LinksTrip{
     openModalNewLink: () => void;
-    importantLink: ImportantLinks[],
+    importantLinks: ImportantLinks[] | undefined;
 }
 
 interface Participants{
@@ -25,7 +28,7 @@ interface Participants{
 
 
 
-export function SideBar({openModalNewLink, importantLink}: LinksTrip){
+export function SideBar({openModalNewLink, importantLinks}: LinksTrip){
 
     
     const [participants, setParticipants] = useState<Participants[]>([])
@@ -41,15 +44,23 @@ export function SideBar({openModalNewLink, importantLink}: LinksTrip){
             <div className="gap-6 flex flex-col">
                 <h3 className="text-xl font-semibold">Links Importantes</h3>
                 <div className="gap-3 flex flex-col">
-                    {importantLink.map(link => {
-                        return(  
-                            <LinksTrip 
-                            
-                                title={link?.Title}
-                                URL={link?.URL}
-                            />
-                        )
-                    })}
+                    
+                    {!importantLinks || importantLinks.length == 0 ? (
+                        <></>
+                    ) : (
+                        <div>
+                            {importantLinks.map((link, index) => {
+                                return(  
+                                    <LinksTrip 
+                                        key={index}
+                                        title={link.title}
+                                        URL={link.url}
+                                    />
+                                )
+                            })}
+                        </div>
+                    )}
+                    
                 </div>
                 <button onClick={openModalNewLink} className="bg-zinc-800 text-zinc-200 w-full h-12 rounded-lg flex items-center justify-center gap-3">
                     <Plus className="size-5"/>
