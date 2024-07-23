@@ -1,4 +1,4 @@
-import { Plus, UserCog } from "lucide-react"
+import { Plus, UserPlus } from "lucide-react"
 
 import { LinksTrip } from "./linksTrip"
 import { EmailsTrips } from "./emailsTrip"
@@ -14,9 +14,10 @@ interface ImportantLinks {
 
 }
 
-interface LinksTrip{
+interface SideBar{
     openModalNewLink: () => void;
     importantLinks: ImportantLinks[] | undefined;
+    openModalNewParticipants: () => void;
 }
 
 interface Participants{
@@ -28,7 +29,7 @@ interface Participants{
 
 
 
-export function SideBar({openModalNewLink, importantLinks}: LinksTrip){
+export function SideBar({openModalNewLink, openModalNewParticipants, importantLinks}: SideBar){
 
     
     const [participants, setParticipants] = useState<Participants[]>([])
@@ -43,12 +44,12 @@ export function SideBar({openModalNewLink, importantLinks}: LinksTrip){
         <div className="w-80 space-y-6">
             <div className="gap-6 flex flex-col">
                 <h3 className="text-xl font-semibold">Links Importantes</h3>
-                <div className="gap-3 flex flex-col">
+                <div className="flex flex-col">
                     
                     {!importantLinks || importantLinks.length == 0 ? (
                         <></>
                     ) : (
-                        <div>
+                        <div className="flex flex-col gap-3">
                             {importantLinks.map((link, index) => {
                                 return(  
                                     <LinksTrip 
@@ -62,7 +63,7 @@ export function SideBar({openModalNewLink, importantLinks}: LinksTrip){
                     )}
                     
                 </div>
-                <button onClick={openModalNewLink} className="bg-zinc-800 text-zinc-200 w-full h-12 rounded-lg flex items-center justify-center gap-3">
+                <button onClick={openModalNewLink} className="bg-zinc-800 text-zinc-200 w-full h-12 rounded-lg flex items-center justify-center gap-2 hover:bg-zinc-700">
                     <Plus className="size-5"/>
                     Cadastrar novo link
                 </button>
@@ -83,9 +84,9 @@ export function SideBar({openModalNewLink, importantLinks}: LinksTrip){
                         )
                     })}
                 </div>
-                <button className="bg-zinc-800 text-zinc-200 w-full h-12 rounded-lg flex items-center justify-center gap-3">
-                    <UserCog className="size-5"/>
-                    Gerenciar Convidados
+                <button onClick={openModalNewParticipants} className="bg-zinc-800 text-zinc-200 w-full h-12 rounded-lg flex items-center justify-center gap-3 hover:bg-zinc-700">
+                    <UserPlus className="size-5"/>
+                    Adicionar Convidado
                 </button>
             </div>
         </div>

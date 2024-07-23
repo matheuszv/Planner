@@ -1,8 +1,6 @@
-import { CircleCheck } from "lucide-react"
 import { CircleDashed } from "lucide-react"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-
 interface Activities{
     date: string,
       activities: 
@@ -18,6 +16,13 @@ interface DaysPlans{
 }
 
 export function DaysPlans({activity}: DaysPlans){
+    const atividade = new Date(activity.date)
+    const hoje = new Date()
+    hoje.setDate(24)
+    let background = ""
+
+    atividade > hoje ? background="bg-zinc-900" : background="bg-zinc-800 text-zinc-400"
+    
     return(
         <div>
             <div className="space-y-8 w-full">
@@ -28,10 +33,10 @@ export function DaysPlans({activity}: DaysPlans){
                     </div>
                     {activity.activities.length > 0 ? 
                         (
-                            <div>
+                            <div className="flex flex-col gap-2 items-center">
                                 {activity.activities.map(plans => {
                                     return(
-                                        <div key={plans.occurs_at} className="bg-zinc-900 flex flex-1 justify-between items-center rounded-lg w-full border border-zinc-800 px-4 py-2.5">
+                                        <div key={plans.occurs_at} className={`${background} flex flex-1 justify-between items-center rounded-lg w-full border border-zinc-800 px-4 py-2.5`}>
                                             <div className="flex gap-2 items-center">
                                                 <CircleDashed className="size-5 text-zinc-500"/>
                                                 <p>{plans.title}</p>

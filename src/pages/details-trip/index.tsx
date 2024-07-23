@@ -3,6 +3,7 @@ import { SideBar } from "./sidebar/sidebar"
 import { DaysPlans } from "./daysPlans"
 import { ModalNewPlan } from "./modalNewPlan"
 import { ModalNewLink } from "./modalNewLink"
+import { ModalNewParticipants } from "./modalNewParticipant"
 import { api } from "../../lib/axios"
 
 import { Plus } from "lucide-react"
@@ -42,6 +43,7 @@ export function DetailsTrip(){
     const [importantLinks, setImportantLinks] = useState<ImportantLinks[]>([])
     const [modalNewPlan,setModalNewPlan] = useState(false)
     const [modalNewLink, setModalNewLink] = useState(false)
+    const [modalNewParticipants, setModalNewParticipants] = useState(false)
     const [trip, setTrip] = useState<Trip | undefined>()
     const [plans, setPlans] = useState<Activities[]>([])
     
@@ -72,7 +74,6 @@ export function DetailsTrip(){
         let title = data.get('TITLE')
         let url = data.get('URL')
         if(!title || !url){
-            event.preventDefault()
             return
         }
         title = title.toString()
@@ -82,7 +83,24 @@ export function DetailsTrip(){
             title,
             url
         })
-        
+        window.document.location.reload()
+    }
+
+    async function newParticipant(event: FormEvent<HTMLFormElement>){
+        event.preventDefault()
+
+        const data = new FormData(event.currentTarget)
+        let email = data.get('email')
+        if(!email){
+            return
+        }
+        email = email.toString()
+
+        await api.post(`/trips/${tripId}/invites`, {
+            email
+        })
+
+        window.document.location.reload()
     }
 
     async function setNewActivie(event: FormEvent<HTMLFormElement>){
@@ -115,6 +133,14 @@ export function DetailsTrip(){
 
     function closeModalNewPlan(){
         setModalNewPlan(false)
+    }
+
+    function openModalNewParticipants(){
+        setModalNewParticipants(true)
+    }
+
+    function closeModalNewParticipants(){
+        setModalNewParticipants(false)
     }
 
     function openModalNewLink(){
@@ -152,6 +178,7 @@ export function DetailsTrip(){
                 <SideBar
                     importantLinks={importantLinks}
                     openModalNewLink={openModalNewLink}
+                    openModalNewParticipants={openModalNewParticipants}
                 />
             </main>
             { modalNewPlan &&
@@ -164,6 +191,12 @@ export function DetailsTrip(){
                 <ModalNewLink 
                     newImportantLink={newImportantLink}
                     closeModalNewLink={closeModalNewLink}
+                />
+            }
+            { modalNewParticipants &&
+                <ModalNewParticipants 
+                    closeModalParticipants={closeModalNewParticipants}
+                    newParticipant={newParticipant}
                 />
             }
         </div>
