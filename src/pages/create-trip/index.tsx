@@ -134,6 +134,7 @@ export function CreateTrip() {
 
   return (
     <div className="h-screen flex items-center justify-center bg-pattern bg-no-repeat bg-center">
+      <img src="./assets/Bg.svg" alt="aaa" />
       <div className="max-w-3xl w-full px-6 text-center space-y-10">
         <div className="flex flex-col items-center gap-2">
           <img src="./assets/Logo.svg" alt="Logo Planner" />
