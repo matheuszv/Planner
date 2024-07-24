@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export const api = axios.create({
-    baseURL: 'https://nlw-journey-nodejs-7l9tkbkda-matheus-vinagres-projects.vercel.app'
+    baseURL: 'https://nlw-journey-nodejs-umber.vercel.app'
 })
