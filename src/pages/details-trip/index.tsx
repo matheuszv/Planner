@@ -52,7 +52,7 @@ export function DetailsTrip(){
     const { tripId } = useParams()
 
     useEffect(() => {
-        fetch(`http://localhost:3333/trips/${tripId}`)
+        fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro na requisição');
@@ -64,7 +64,7 @@ export function DetailsTrip(){
     }, [tripId])
 
     useEffect(() => {
-        fetch(`http://localhost:3333/trips/${tripId}/activities`)
+        fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/activities`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro na requisição');
@@ -76,7 +76,7 @@ export function DetailsTrip(){
     }, [tripId])
 
     useEffect(() => {
-        fetch(`http://localhost:3333/trips/${tripId}/links`)
+        fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/links`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro na requisição');
