@@ -4,7 +4,7 @@ import { DaysPlans } from "./daysPlans"
 import { ModalNewPlan } from "./modalNewPlan"
 import { ModalNewLink } from "./modalNewLink"
 import { ModalNewParticipants } from "./modalNewParticipant"
-import { api } from "../../lib/axios"
+//import { api } from "../../lib/axios"
 
 import { Plus } from "lucide-react"
 
@@ -52,15 +52,40 @@ export function DetailsTrip(){
     const { tripId } = useParams()
 
     useEffect(() => {
-        api.get(`/trips/${tripId}`).then(response => setTrip(response.data.trip))
+        fetch(`http://localhost:3333/trips/${tripId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição');
+            }
+            return response.json();
+        })
+        .then(data => setTrip(data.trip))
+        .catch(error => console.error(error));
     }, [tripId])
 
     useEffect(() => {
-        api.get(`/trips/${tripId}/activities`).then(response => setPlans(response.data.activities))
+        fetch(`http://localhost:3333/trips/${tripId}/activities`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição');
+            }
+            return response.json();
+        })
+        .then(data => setPlans(data.activities))
+        .catch(error => console.error(error));
     }, [tripId])
 
     useEffect(() => {
-        api.get(`/trips/${tripId}/links`).then(response => setImportantLinks(response.data.links))
+        fetch(`http://localhost:3333/trips/${tripId}/links`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erro na requisição');
+            }
+            return response.json();
+        })
+        .then(data => setImportantLinks(data.links))
+        .catch(error => console.error(error));
+
     }, [tripId])
 
     const displayDate = trip ? 
@@ -79,10 +104,16 @@ export function DetailsTrip(){
         title = title.toString()
         url = url.toString()
 
-        await api.post(`/trips/${tripId}/links`, {
-            title,
-            url
-        })
+        await fetch(`http://localhost:3333/trips/${tripId}/links`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title,
+                url
+            })
+        });
         window.document.location.reload()
     }
 
@@ -96,9 +127,16 @@ export function DetailsTrip(){
         }
         email = email.toString()
 
-        await api.post(`/trips/${tripId}/invites`, {
-            email
-        })
+        await fetch(`http://localhost:3333/trips/${tripId}/invites`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email
+            })
+        });
+        
 
         window.document.location.reload()
     }
@@ -119,10 +157,16 @@ export function DetailsTrip(){
 
         console.log({title, occurs_at})
   
-        await api.post(`/trips/${tripId}/activities`, {
-            title,
-            occurs_at
-        })
+        await fetch(`http://localhost:3333/trips/${tripId}/activities`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title,
+                occurs_at
+            })
+        });
   
         window.document.location.reload()
       }

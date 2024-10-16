@@ -6,7 +6,7 @@ import { ModalConfirmScreen } from './modalConfirmScreen'
 import { DayPicker } from 'react-day-picker'
 import { DateRange } from 'react-day-picker'
 import { format } from 'date-fns'
-import { api } from '../../lib/axios'
+//import { api } from '../../lib/axios'
 
 import 'react-day-picker/dist/style.css';
 
@@ -117,18 +117,31 @@ export function CreateTrip() {
     }
 
 
-    const response = await api.post('/trips', {
-      destination,
-      starts_at: eventStartandEnd.from,
-      ends_at: eventStartandEnd.to,
-      emails_to_invite: emailsToInvite,
-      owner_name: ownerName,
-      owner_email: ownerEmail
-    })
+    const response = await fetch('http://localhost:3333/trips', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            destination,
+            starts_at: eventStartandEnd.from,
+            ends_at: eventStartandEnd.to,
+            emails_to_invite: emailsToInvite,
+            owner_name: ownerName,
+            owner_email: ownerEmail
+        })
+    });
+  
+    if (response.ok) {
+        const data = await response.json();
+        console.log(data); // Manipule os dados recebidos, se necessário
+        const { tripId } = data.tripId
 
-    const { tripId } = response.data
+        navigate(`http://localhost:3333/trips/${tripId}`)
+    } else {
+        console.error('Erro na requisição:', response.statusText);
+    }
 
-    navigate(`/trips/${tripId}`)
     
   }
 

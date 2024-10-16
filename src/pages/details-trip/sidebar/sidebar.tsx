@@ -2,7 +2,6 @@ import { Plus, UserPlus } from "lucide-react"
 
 import { LinksTrip } from "./linksTrip"
 import { EmailsTrips } from "./emailsTrip"
-import { api } from "../../../lib/axios";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -37,7 +36,15 @@ export function SideBar({openModalNewLink, openModalNewParticipants, importantLi
 
 
     useEffect(() => {
-        api.get(`/trips/${tripId}/participants`).then(response => setParticipants(response.data.participants))
+        fetch(`http://localhost:3333/trips/${tripId}/participants`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro na requisição');
+                }
+                return response.json();
+            })
+            .then(data => setParticipants(data.participants))
+            .catch(error => console.error(error));
     }, [tripId])
     
     return(
