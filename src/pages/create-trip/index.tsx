@@ -117,7 +117,7 @@ export function CreateTrip() {
     }
 
 
-    const response = await fetch('http://localhost:3333/trips', {
+    const response = await fetch('https://nlw-journey-nodejs-h6cm.onrender.com/trips', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -134,10 +134,9 @@ export function CreateTrip() {
   
     if (response.ok) {
         const data = await response.json();
-        console.log(data); // Manipule os dados recebidos, se necessário
-        const { tripId } = data.tripId
+        console.log(data.tripId); // Manipule os dados recebidos, se necessário
 
-        navigate(`http://localhost:3333/trips/${tripId}`)
+        navigate(`/trips/${data.tripId}`)
     } else {
         console.error('Erro na requisição:', response.statusText);
     }

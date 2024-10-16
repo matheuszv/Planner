@@ -104,7 +104,7 @@ export function DetailsTrip(){
         title = title.toString()
         url = url.toString()
 
-        await fetch(`http://localhost:3333/trips/${tripId}/links`, {
+        await fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/links`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -127,7 +127,7 @@ export function DetailsTrip(){
         }
         email = email.toString()
 
-        await fetch(`http://localhost:3333/trips/${tripId}/invites`, {
+        await fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/invites`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -157,7 +157,7 @@ export function DetailsTrip(){
 
         console.log({title, occurs_at})
   
-        await fetch(`http://localhost:3333/trips/${tripId}/activities`, {
+        await fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/activities`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

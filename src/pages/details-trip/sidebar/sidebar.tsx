@@ -36,7 +36,7 @@ export function SideBar({openModalNewLink, openModalNewParticipants, importantLi
 
 
     useEffect(() => {
-        fetch(`http://localhost:3333/trips/${tripId}/participants`)
+        fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/participants`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Erro na requisição');
