@@ -6,11 +6,12 @@ interface modalConfirmScreen{
     createNewTrip: (event: FormEvent<HTMLFormElement>) => void;
     handleOwnerName: (username: ChangeEvent<HTMLInputElement>) => void;
     handleOwnerEmail: (email: ChangeEvent<HTMLInputElement>) => void;
+    destination: string;
     ownerName: string;
     ownerEmail: string;
 }
 
-export function ModalConfirmScreen({ closeModalConfirmScreen, createNewTrip, handleOwnerName, handleOwnerEmail, ownerName,  ownerEmail}: modalConfirmScreen){
+export function ModalConfirmScreen({ closeModalConfirmScreen, createNewTrip, handleOwnerName, handleOwnerEmail, ownerName,  ownerEmail, destination}: modalConfirmScreen){
     return(
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center shadow-shape">
           <div className="w-[640px] rounded-xl bg-zinc-900 py-5 px-6 flex flex-col gap-3">
@@ -18,7 +19,7 @@ export function ModalConfirmScreen({ closeModalConfirmScreen, createNewTrip, han
               <h2 className="text-white font-semibold text-lg ">Confirmar criação da viagem</h2>
               <button type="button" onClick={closeModalConfirmScreen}><X/></button>
             </div>
-            <p className="text-zinc-400">Para concluir a criação da viagem para <strong className="text-zinc-50">Florianópolis, Brasil</strong> nas datas de <strong className="text-zinc-50">16 a 27 de Agosto de 2024</strong> preencha seus dados abaixo:</p>
+            <p className="text-zinc-400">Para concluir a criação da viagem para <strong className="text-zinc-50">{destination}</strong> nas datas de <strong className="text-zinc-50">16 a 27 de Agosto de 2024</strong> preencha seus dados abaixo:</p>
             <div className="h-px w-full bg-zinc-800" />
 
             <form onSubmit={createNewTrip} className="flex flex-col gap-2">

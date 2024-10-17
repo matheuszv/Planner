@@ -235,6 +235,7 @@ export function CreateTrip() {
           createNewTrip={createNewTrip}
           handleOwnerName={handleOwnerName}
           handleOwnerEmail={handleOwnerEmail}
+          destination={destination}
           ownerEmail={ownerEmail}
           ownerName={ownerName}
           
