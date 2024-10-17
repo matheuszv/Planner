@@ -61,7 +61,7 @@ export function DetailsTrip(){
             return response.json();
         })
         .then(data => setTrip(data.trip))
-        .catch(error => console.error(error));
+        .catch(error => console.error(`ERRADOA = ${error}`));
     }, [tripId])
 
     useEffect(() => {
@@ -74,11 +74,11 @@ export function DetailsTrip(){
             return response.json();
         })
         .then(data => setPlans(data.activities))
-        .catch(error => console.error(error));
+        .catch(error => console.error(`ERRADOB = ${error}`));
     }, [tripId])
 
     useEffect(() => {
-        console.log(`ccccccc ${tripId}`)
+        console.log(`CCCCCCC ${tripId}`)
         fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/links`)
         .then(response => {
             if (!response.ok) {
@@ -87,7 +87,7 @@ export function DetailsTrip(){
             return response.json();
         })
         .then(data => setImportantLinks(data.links))
-        .catch(error => console.error(error));
+        .catch(error => console.error(`ERRADOC = ${error}`));
 
     }, [tripId])
 

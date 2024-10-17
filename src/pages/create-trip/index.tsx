@@ -134,7 +134,6 @@ export function CreateTrip() {
   
     if (response.ok) {
         const data = await response.json();
-        console.log(data.tripId); // Manipule os dados recebidos, se necessário
 
         navigate(`/trips/${data.tripId}`)
     } else {
