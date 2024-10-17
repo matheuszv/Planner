@@ -65,7 +65,7 @@ export function DetailsTrip(){
     }, [tripId])
 
     useEffect(() => {
-        console.log(`aaaaaaaa ${tripId}`)
+        console.log(`bbbbbb ${tripId}`)
         fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/activities`)
         .then(response => {
             if (!response.ok) {
@@ -78,7 +78,7 @@ export function DetailsTrip(){
     }, [tripId])
 
     useEffect(() => {
-        console.log(`aaaaaaaaa ${tripId}`)
+        console.log(`ccccccc ${tripId}`)
         fetch(`https://nlw-journey-nodejs-h6cm.onrender.com/trips/${tripId}/links`)
         .then(response => {
             if (!response.ok) {
